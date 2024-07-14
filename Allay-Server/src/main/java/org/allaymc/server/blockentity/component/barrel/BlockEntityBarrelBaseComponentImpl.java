@@ -1,5 +1,6 @@
 package org.allaymc.server.blockentity.component.barrel;
 
+import org.allaymc.api.block.component.common.Coordinate;
 import org.allaymc.api.block.type.BlockTypes;
 import org.allaymc.api.blockentity.component.common.BlockEntityContainerHolderComponent;
 import org.allaymc.api.blockentity.init.BlockEntityInitInfo;
@@ -29,24 +30,22 @@ public class BlockEntityBarrelBaseComponentImpl extends BlockEntityBaseComponent
         var container = containerHolderComponent.<BarrelContainer>getContainer();
         container.addOnOpenListener(viewer -> {
             if (container.getViewers().size() == 1) {
+                Coordinate coordinate = new Coordinate(position.x(), position.y(), position.z());
                 BlockTypes.BARREL_TYPE.getBlockBehavior().updateBlockProperty(
                         VanillaBlockPropertyTypes.OPEN_BIT,
                         true,
-                        position.x(),
-                        position.y(),
-                        position.z(),
+                        coordinate,
                         position.dimension()
                 );
             }
         });
         container.addOnCloseListener(viewer -> {
             if (container.getViewers().isEmpty()) {
+                Coordinate coordinate = new Coordinate(position.x(), position.y(), position.z());
                 BlockTypes.BARREL_TYPE.getBlockBehavior().updateBlockProperty(
                         VanillaBlockPropertyTypes.OPEN_BIT,
                         false,
-                        position.x(),
-                        position.y(),
-                        position.z(),
+                        coordinate,
                         position.dimension()
                 );
             }

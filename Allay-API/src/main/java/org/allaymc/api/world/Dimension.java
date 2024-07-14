@@ -30,6 +30,7 @@ import org.jetbrains.annotations.Unmodifiable;
 import org.jetbrains.annotations.UnmodifiableView;
 import org.joml.Vector3fc;
 import org.joml.Vector3ic;
+import org.joml.primitives.AABBf;
 import org.joml.primitives.AABBfc;
 
 import java.util.*;
@@ -456,4 +457,10 @@ public interface Dimension {
      * @param player   The player who breaks the block, can be null
      */
     void breakBlock(int x, int y, int z, ItemStack usedItem, EntityPlayer player);
+
+    default boolean validDimensionArea(AABBf extendAABB) {
+        return (extendAABB.minY < this.getDimensionInfo().minHeight()) &&
+                !this.getChunkService().isChunkLoaded((int) extendAABB.minX >> 4, (int) extendAABB.minZ >> 4) &&
+                !this.getChunkService().isChunkLoaded((int) extendAABB.maxX >> 4, (int) extendAABB.maxZ >> 4);
+    }
 }

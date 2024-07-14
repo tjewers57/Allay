@@ -179,19 +179,6 @@ public final class Scoreboard {
     }
 
     /**
-     * Convenient interface for plugins to display scores
-     *
-     * @param text  Name of FakeScorer
-     * @param score Score
-     *
-     * @return Whether the addition was successful
-     */
-    public boolean addLine(String text, int score) {
-        var fakeScorer = new FakeScorer(text);
-        return addLine(new ScoreboardLine(this, fakeScorer, score));
-    }
-
-    /**
      * Remove the line corresponding to the tracker in this scoreboard (if it exists)
      *
      * @param scorer Target tracker
@@ -270,25 +257,6 @@ public final class Scoreboard {
                         slotViewer.displayScoreboard(this, slot)
                 )
         );
-    }
-
-    /**
-     * Convenient interface for plugins
-     * <p>
-     * Set the content of the scoreboard in the order of the List (using FakeScorer as the tracker)
-     * <p>
-     * It will overwrite all previous lines
-     *
-     * @param lines String content to set
-     */
-    public void setLines(List<String> lines) {
-        removeAllLines(false);
-        AtomicInteger score = new AtomicInteger();
-        lines.forEach(str -> {
-            var scorer = new FakeScorer(str);
-            this.lines.put(scorer, new ScoreboardLine(this, scorer, score.getAndIncrement()));
-        });
-        resend();
     }
 
     /**

@@ -36,7 +36,7 @@ public class AllayRecipeRegistry implements RecipeRegistry {
     private final Map<Identifier, ShapelessRecipe> shapelessRecipes = new HashMap<>();
     private final Set<Recipe> recipes = new HashSet<>();
     private List<RecipeData> networkRecipeData = null;
-    private boolean shouldUpdateNetworkRecipeDataCache = true;
+    private boolean updateNetworkRecipeCache = true;
 
     public void registerVanillaRecipes() {
         var stream = AllayItemType.class.getClassLoader().getResourceAsStream("recipes.json");
@@ -204,7 +204,7 @@ public class AllayRecipeRegistry implements RecipeRegistry {
         networkRecipes.put(recipe.getNetworkId(), recipe);
         shapedRecipes.put(recipe.getIdentifier(), recipe);
         recipes.add(recipe);
-        shouldUpdateNetworkRecipeDataCache = true;
+        updateNetworkRecipeCache = true;
     }
 
     @Override
@@ -217,7 +217,7 @@ public class AllayRecipeRegistry implements RecipeRegistry {
         networkRecipes.put(recipe.getNetworkId(), recipe);
         shapelessRecipes.put(recipe.getIdentifier(), recipe);
         recipes.add(recipe);
-        shouldUpdateNetworkRecipeDataCache = true;
+        updateNetworkRecipeCache = true;
     }
 
     @Override
@@ -241,9 +241,9 @@ public class AllayRecipeRegistry implements RecipeRegistry {
     }
 
     protected List<RecipeData> getNetworkRecipeData() {
-        if (shouldUpdateNetworkRecipeDataCache) {
+        if (updateNetworkRecipeCache) {
             networkRecipeData = buildNetworkRecipeData();
-            shouldUpdateNetworkRecipeDataCache = false;
+            updateNetworkRecipeCache = false;
         }
         return networkRecipeData;
     }

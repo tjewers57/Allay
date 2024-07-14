@@ -5,6 +5,7 @@ import org.allaymc.api.eventbus.EventHandler;
 import org.allaymc.api.eventbus.event.server.player.PlayerInitializedEvent;
 import org.allaymc.api.form.Forms;
 import org.allaymc.api.scoreboard.Scoreboard;
+import org.allaymc.api.scoreboard.ScoreboardPluginHelper;
 import org.allaymc.api.scoreboard.data.DisplaySlot;
 import org.allaymc.api.server.Server;
 
@@ -64,7 +65,7 @@ public class ServerEventListener {
                 list.add("Biome: §aN/A");
             }
             list.add("Ping: " + player.getPing());
-            scoreboard.setLines(list);
+            ScoreboardPluginHelper.setLines(scoreboard, list);
             return true;
         }, 20);
     }

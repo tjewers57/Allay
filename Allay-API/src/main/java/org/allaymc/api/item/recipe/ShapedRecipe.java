@@ -74,25 +74,38 @@ public class ShapedRecipe extends CraftingRecipe {
 
         var inputs = removeUselessRowAndColumn(craftingInput.getItems());
         // Empty input not allowed
-        if (inputs.length == 0) return false;
-        if (inputs.length > pattern.length) return false;
-        if (inputs[0].length > pattern[0].length) return false;
+        if(!verifyNotEmpty(inputs)) return false;
+        //if (inputs.length == 0) return false;
+        //if (inputs.length > pattern.length) return false;
+        //if (inputs[0].length > pattern[0].length) return false;
 
         for (int i = 0, patternLength = pattern.length; i < patternLength; i++) {
             var row = pattern[i];
             for (int j = 0, rowLength = row.length; j < rowLength; j++) {
                 var key = row[j];
                 var item = inputs[i][j];
-                if (key == EMPTY_KEY_CHAR) {
-                    if (!item.getItemType().equals(AIR_TYPE)) return false;
-                } else {
-                    var descriptor = keys.get(key);
-                    if (!descriptor.match(item)) return false;
-                }
+                if(!verifyRecipeItem(key, item)) return false;
             }
         }
 
         return true;
+    }
+
+    // verifies that the input of the recipe is not empty
+    private boolean verifyNotEmpty(ItemStack[][] inputs){
+        if (inputs.length == 0) return false;
+        else if (inputs.length > pattern.length) return false;
+        else return inputs[0].length <= pattern[0].length;
+    }
+
+    // verifies that the item in the recipe matches the key
+    private boolean verifyRecipeItem(char key, ItemStack item){
+        if (key == EMPTY_KEY_CHAR) {
+            return item.getItemType().equals(AIR_TYPE);
+        } else {
+            var descriptor = keys.get(key);
+            return descriptor.match(item);
+        }
     }
 
     // @formatter:off

@@ -36,11 +36,14 @@ public interface BlockBaseComponent extends BlockComponent {
 
     BlockType<? extends BlockBehavior> getBlockType();
 
-    default <DATATYPE> void updateBlockProperty(BlockPropertyType<DATATYPE> propertyType, DATATYPE value, int x, int y, int z, Dimension dimension) {
-        updateBlockProperty(propertyType, value, x, y, z, dimension, 0);
+    default <DATATYPE> void updateBlockProperty(BlockPropertyType<DATATYPE> propertyType, DATATYPE value, Coordinate coordinate, Dimension dimension) {
+        updateBlockProperty(propertyType, value, coordinate, dimension, 0);
     }
 
-    default <DATATYPE> void updateBlockProperty(BlockPropertyType<DATATYPE> propertyType, DATATYPE value, int x, int y, int z, Dimension dimension, int layer) {
+    default <DATATYPE> void updateBlockProperty(BlockPropertyType<DATATYPE> propertyType, DATATYPE value, Coordinate coordinate, Dimension dimension, int layer) {
+        int x = coordinate.getXValue();
+        int y = coordinate.getYValue();
+        int z = coordinate.getZValue();
         var chunk = dimension.getChunkService().getChunkByLevelPos(x, z);
         if (chunk == null) return;
 
